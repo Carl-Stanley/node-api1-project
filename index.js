@@ -17,7 +17,7 @@ server.get('/api/users', (req, res) => {
     })
 
     .catch(error => {
-      res.status(500).json({ message: "error getting list of users" })
+      res.status(500).json({ message: "error retrieving users" })
     })
 })
 
@@ -32,7 +32,7 @@ server.get('/api/users/:id', (req, res) => {
     })
 
     .catch(error => {
-      res.status(500).json({ error: "The users information could not be retrieved." })
+      res.status(500).json({ error: "That user does not exist." })
     })
 })
 
@@ -46,7 +46,7 @@ server.post('/api/users', (req, res) => {
       res.status(201).json(user)
     })
     .catch(error => {
-      res.status(500).json({ error: "There was an error while saving the user to the database" })
+      res.status(500).json({ error: "Error adding user" })
     })
 })
 
@@ -58,14 +58,14 @@ server.delete('/api/users/:id', (req, res) => {
     .then(user => {
       if (user) {
 
-        res.status(200).json({ message: "Successfully deleted the user." })
+        res.status(200).json({ message: "Deleted user." })
       } else {
 
-        res.status(404).json({ message: "The user with the specified ID does not exist." })
+        res.status(404).json({ message: "User Not Found" })
       }
     })
     .catch(error => {
-      res.status(500).json({ error: "The user could not be removed" })
+      res.status(500).json({ error: "Remove Failed" })
     })
 })
 
@@ -79,21 +79,21 @@ server.put('/api/users/:id', (req, res) => {
   users.update(id, changes)
     .then(updated => {
       if (!changes.name) {
-        res.status(400).json({ errorMessage: "Please provide name and bio for the user." })
+        res.status(400).json({ errorMessage: "Name and bio for the user required." })
       } else if (!changes.bio) {
-        res.status(400).json({ errorMessage: "Please provide name and bio for the user." })
+        res.status(400).json({ errorMessage: "Name and bio for the user required." })
       } else if (updated) {
         res.status(200).json(updated)
       } else {
-        res.status(404).json({ message: "The user with the specified ID does not exist" })
+        res.status(404).json({ message: "User does not exist" })
       }
     })
     .catch(error => {
-      res.status(500).json({ error: "The user information could not be modified."})
+      res.status(500).json({ error: "Could not update user info."})
     })
 })
 
 
 
 const port = 3001;
-server.listen(port, () => console.log('\n server is running \n'))
+server.listen(port, () => console.log('\n Server Running \n'))
